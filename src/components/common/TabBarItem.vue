@@ -32,6 +32,14 @@ export default {
   components: { // 组件的引用
 
   },
+  activated(){
+    this.$router.replace(this.path)
+  },
+  beforeRouteLeave(to,from,next){
+    this.path=this.$route.path
+    //组件内导航（组件守卫）
+    next()
+  },
   methods: { // 方法
     change(){
       this.$router.replace(this.path)

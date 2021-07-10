@@ -18,10 +18,14 @@
       </a>
     </swiper-item>
   </swiper> -->
-  <home-recommend-view :recommend="recommend"></home-recommend-view>
-  <feature-view/>
-  <tab-control class="tab-control" :titles="['流行','新款','精选']" @tabControl="tabControl"></tab-control>
-  <goods-list :showGoods="showGoods" class="goods-list"></goods-list>
+  <tab-control class="tab-control" :titles="['流行','新款','精选']" @tabControl="tabControl" ref="tabControl" v-show="tabStyle"></tab-control>
+  <content-scroll class="content"  ref="scroll" :probe-type="3" @contentScroll="contentScroll" @loadMore="loadMore">
+    <home-recommend-view :recommend="recommend"></home-recommend-view>
+    <feature-view/>
+    <tab-control class="tab-control" :titles="['流行','新款','精选']" @tabControl="tabControl" ref="tabControl" v-show="!tabStyle"></tab-control>
+    <goods-list :showGoods="showGoods" class="goods-list"></goods-list>
+  </content-scroll>
+  <back-top @click.native="backClick" v-show="isShowBack"></back-top>
 </div>
 </template>
 
@@ -33,8 +37,10 @@ import HomeRecommendView from './HomeRecommendView.vue'
 import FeatureView from './FeatureView.vue'
 import TabControl from '../../components/content/TabControl.vue'
 import GoodsList from '../../components/content/goods/GoodsList.vue'
+import ContentScroll from '../../components/common/ContentScroll.vue'
 
 import {getHome,getHomegoods} from '../../networks/data.js'
+import BackTop from '../../components/common/BackTop.vue'
 
 
 export default {
@@ -46,6 +52,8 @@ export default {
       FeatureView,
       TabControl,
       GoodsList,
+      ContentScroll,
+      BackTop,
       
       // Swiper,
       // SwiperItem
@@ -61,7 +69,10 @@ export default {
       'new':{page:0,list:[]},
       'sell':{page:0,list:[]}
      },
-     currentType:'pop'
+     currentType:'pop',
+     isShowBack:false,
+     tabOffsettop:0,
+     tabStyle:false
     }
   },
   created () { // 实例被创建之后执行代码
@@ -69,6 +80,9 @@ export default {
     this.getHomegoods('pop')
     this.getHomegoods('new')
     this.getHomegoods('sell')
+    // this.$bus.$on('itemImgLoad',()=>{
+    //    this.$refs.scroll.refresh()
+    // })
   },
   
   computed: { // 计算属性
@@ -89,8 +103,25 @@ export default {
          case 2:
            this.currentType='sell'
        }
+       this.$refs.tabControl.currentIndex=index
     },
-
+    backClick(){
+       this.$refs.scroll.scrollTop(0,0,500)
+    },
+    loadMore(){
+        this.getHomegoods(this.currentType)
+        this.$refs.scroll.finishPullUp()
+    },
+    contentScroll(position){
+       if(position.y<-1000){
+         this.isShowBack=true
+       }
+       else{
+         this.isShowBack=false
+       }
+       this.tabStyle=Math.abs(position.y)>=362?true:false
+    },
+  //进行数据请求
      getHome(){
        getHome().then(res=>{
       this.recommend=res.data.data.recommend.list
@@ -99,52 +130,43 @@ export default {
      },
      getHomegoods(type){
        let currentPage=this.goods[type].page+1
+       this.goods[type].page=currentPage
+       console.log(currentPage)
          getHomegoods(type,currentPage).then(res=>{
-           this.goods[type].list=res.data.data.list
+           let list=res.data.data.list
+           this.goods[type].list.push(...list)
           //  console.log(res.data.data.list)
          })
      }
   },
   mounted () { // 页面进入时加载内容
-
-  },
-  watch: { // 监测变化
-
+       this.tabOffsettop=this.$refs.tabControl.$el.offsetTop
+       console.log(this.$refs.tabControl.$el.offsetTop)
   }
 }
 </script>
 <style scoped lang='less'>
 .home{
-  padding-top: 44px;
+  height: 100vh;
   .home-nav{
     background-color: rosybrown;
-    position: fixed;
-    left:0;
-    top:0;
-    right: 0;
-    z-index:10;
+    // position: fixed;
+    // left:0;
+    // top:0;
+    // right: 0;
+    // z-index:10;
   }
-  .tab-control{
-    background-color: #ffffff;
-    position: sticky;
-    top:44px;
+  .content{
+    // margin-top: 44px;
+    height: calc(100% - 93px);
+    overflow: hidden;
+     .tab-control{
+      background-color: #ffffff;
   }
-  .bannerWrap{
-    width:100%;
-    ul{
-      width:900%;
-      li{
-        width:calc(100% / 9);
-        float: left;
-        img{
-          width:100%;
-        }
-      }
-    }
-  }
-  .goods-list{
+   .goods-list{
     display: flex;
     flex-wrap: wrap;
+  }
   }
 
 }

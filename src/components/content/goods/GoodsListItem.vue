@@ -6,8 +6,8 @@
 * @version V1.0.0
 !-->
 <template>
-<div id='goods-list-item' class='goods-list-item'>
-   <a :href="item.link">
+<div id='goods-list-item' class='goods-list-item' @click="detailInfo">
+   <a>
      <div><img :src="item.show.img"></div>
      <p>{{item.title}}</p>
      <span>{{item.orgPrice}}</span>
@@ -27,17 +27,20 @@ export default {
 
     }
   },
-  created () { // 实例被创建之后执行代码
-
-  },
-  computed: { // 计算属性
-
-  },
-  components: { // 组件的引用
-
-  },
+ 
   methods: { // 方法
-
+    // itemLoad(){
+    //    this.$bus.$emit('itemImgLoad')
+    // }
+    detailInfo(){
+      console.log(this.item)
+      this.$router.push({
+        path:'/detail',
+        query:{
+          iid:this.item.iid
+        }
+      })
+    }
   },
   mounted () { // 页面进入时加载内容
 

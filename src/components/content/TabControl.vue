@@ -43,6 +43,7 @@ export default {
       this.currentIndex=index
       this.$emit('tabControl',index)
     },
+    
    
   },
   mounted () { // 页面进入时加载内容

@@ -37,7 +37,7 @@ export default {
   name: 'MainTabBar',
   data () {
     return {
-
+      
     }
   },
   created () { // 实例被创建之后执行代码
@@ -55,6 +55,7 @@ export default {
   mounted () { // 页面进入时加载内容
 
   },
+  
   watch: { // 监测变化
 
   }

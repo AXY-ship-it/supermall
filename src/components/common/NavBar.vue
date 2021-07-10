@@ -52,6 +52,7 @@ export default {
    border-bottom: 1px solid #ccc;
   .nav-bar-left{
    width: 60px;
+   line-height: 60px;
   }
   .nav-bar-right{
     width: 60px;
