@@ -39,7 +39,7 @@ export default {
     })
     this.scroll.on('scroll',(position)=>{
       this.$emit('contentScroll',position)
-      // this.scroll.refresh()
+      // this.scroll.refresh
     })
     this.scroll.on('pullingUp',()=>{
       this.$emit('loadMore')

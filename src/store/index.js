@@ -6,7 +6,7 @@ import actions from './actions'
 Vue.use(Vuex)
 const store=new Vuex.Store({
   state: {
-    songs:[]
+    cartShops:[]
   },
   mutations,
   getters,

@@ -15,7 +15,7 @@
     <detail-goods-info :detail="detail" ref="goods"></detail-goods-info>
   </content-scroll>
   <back-top @click.native="backClick" v-show="isShowBack"></back-top>
-  <detail-bottom-bar></detail-bottom-bar>
+  <detail-bottom-bar @addShops="addShops"/>
 </div>
 </template>
 
@@ -60,7 +60,7 @@ export default {
   },
   created(){
      this.iid=this.$route.query.iid
-     console.log(this.iid)
+    //  console.log(this.iid)
      this.getDetails(this.iid)
   },
   methods: { // 方法
@@ -106,6 +106,17 @@ export default {
      backClick(){
        this.$refs.scroll.scrollTop(0,0,500)
     },
+    addShops(){
+      const product={}
+      // product.image=this.
+      product.iid=this.baseInfo.iid
+      product.count=1
+      product.title=this.goods.title
+      product.price=this.goods.oldPrice
+      product.image=this.detail.detailImage[0].list[0]
+      this.$store.commit('addCart',product)
+      // console.log(product)
+    }
   },
   mounted () { // 页面进入时加载内容
     this.baseTop=this.$refs.base.$el.offsetTop

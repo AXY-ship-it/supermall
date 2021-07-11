@@ -11,7 +11,7 @@
   <div><div><img src="../../../assets/img/店铺.svg"></div><span>店铺</span></div>
   <div><div><img src="../../../assets/img/收 藏.svg"></div><span>收藏</span></div>
   <div class="detail-item">
-    <div class="detail-cart">加入购物车</div>
+    <div class="detail-cart" @click="addShop">加入购物车</div>
     <div class="detail-shop">购买</div>
   </div>
 </div>
@@ -37,7 +37,9 @@ export default {
 
   },
   methods: { // 方法
-
+    addShop(){
+      this.$emit('addShops')
+    }
   },
   mounted () { // 页面进入时加载内容
 
