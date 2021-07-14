@@ -37,3 +37,11 @@ export class DetailInfo{
     this.detailImage=detailInfo.detailImage
   }
 }
+export function getRecommend(item_id){
+  return request({
+    url:'/recommend',
+    params:{
+      item_id
+    }
+  })
+}

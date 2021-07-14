@@ -7,33 +7,47 @@
 !-->
 <template>
 <div id='check-out' class='check-out'>
-  <div class="check-all"><input type="checkbox"><span>全选</span></div>
-  <div><span>已选</span><span>合计</span></div>
-  <div><button>结算</button></div>
+  <div class="checkbtn"><check-button @click.native="checkAll" :isCheckAll="isCheckAll"/><span>全选</span></div>
+  <div><span>已选{{accountLength}}件</span><span>合计：</span><span class="account">￥{{account}}</span></div>
+  <div><button @click="checkOut">去结算({{accountLength}})</button></div>
 </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import CheckButton from './CheckButton.vue'
 export default {
   props: { // 父辈向子辈传参
   },
   name: 'CheckOut',
   data () {
     return {
-
     }
   },
   created () { // 实例被创建之后执行代码
 
   },
   computed: { // 计算属性
-
+    ...mapGetters(['account','accountLength','cartShops']),
+    isCheckAll(){
+       if(this.cartShops.length===0)  return false
+       return !this.cartShops.find((item)=>!item.isCheck)
+    }
   },
-  components: { // 组件的引用
+  components: {
+    CheckButton // 组件的引用
 
   },
   methods: { // 方法
-
+    checkAll(){
+      this.$store.dispatch('checkAll')
+    },
+    checkOut(){
+      if(!this.accountLength){
+        this.$toast.show('你还未选择商品',2000)
+        // this.$toast.show(res,2000)
+      }
+    }
   },
   mounted () { // 页面进入时加载内容
 
@@ -58,7 +72,11 @@ export default {
   display: flex;
   z-index:12;
   div{
-    flex:1;
+    // flex:1;
+    &.checkbtn{
+      display: flex;
+    }
+    width:auto;
     button{
       width:70px;
       height:30px;
@@ -67,6 +85,9 @@ export default {
       color:#fff;
       border:none;
       outline: none;
+    }
+    .account{
+      color:red;
     }
   }
 }

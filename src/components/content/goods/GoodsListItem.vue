@@ -7,10 +7,10 @@
 !-->
 <template>
 <div id='goods-list-item' class='goods-list-item' @click="detailInfo">
-   <a>
-     <div><img :src="item.show.img"></div>
+  <a>
+     <div><img :src="showImage"></div>
      <p>{{item.title}}</p>
-     <span>{{item.orgPrice}}</span>
+     <span>{{item.orgPrice||item.price}}</span>
    </a>
     
 </div>
@@ -27,7 +27,11 @@ export default {
 
     }
   },
- 
+ computed:{
+   showImage(){
+     return  this.item.image||this.item.show.img
+   }
+ },
   methods: { // 方法
     // itemLoad(){
     //    this.$bus.$emit('itemImgLoad')
@@ -55,13 +59,15 @@ export default {
   width:50%;
   padding:5px;
   box-sizing: border-box;
+  display: inline-block;
   // flex:1;
-  a{
+   a{
     font-size: 18px;
     div{
       // border-radius: 10px;
       img{
         width: 100%;
+        border-radius: 10px;
     }
     }
     p{

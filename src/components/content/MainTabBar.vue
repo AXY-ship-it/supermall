@@ -9,21 +9,22 @@
 <div id='main-tab-bar' class='main-tab-bar'>
     <tab-bar>
       <tab-bar-item path="/home">
-        <img src="../../assets/img/网易云音乐.svg" slot="item-icon">
+        <img src="@/assets/img/网易云音乐.svg" slot="item-icon">
         <div slot="item-text">首页</div>
       </tab-bar-item>
+      <tab-bar-item path="/category">
+        <img src="@/assets/img/K歌.svg" slot="item-icon">
+        <div slot="item-text">分类</div>
+      </tab-bar-item>
       <tab-bar-item path="/cast">
-        <img src="../../assets/img/电台直播.svg" slot="item-icon">
+        <img src="@/assets/img/电台直播.svg" slot="item-icon">
         <div slot="item-text">购物车</div>
       </tab-bar-item>
       <tab-bar-item path="/profile">
-        <img src="../../assets/img/我的.svg" slot="item-icon">
+        <img src="@/assets/img/我的.svg" slot="item-icon">
         <div slot="item-text">我的</div>
       </tab-bar-item>
-      <tab-bar-item path="/kmusic">
-        <img src="../../assets/img/K歌.svg" slot="item-icon">
-        <div slot="item-text">分类</div>
-      </tab-bar-item>
+      
     </tab-bar>
 </div>
 </template>

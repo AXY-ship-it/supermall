@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import MainTabBar  from './components/content/MainTabBar.vue'
+import MainTabBar  from '@/components/content/MainTabBar.vue'
 import {mapState} from 'vuex'
 export default {
   name: 'App',

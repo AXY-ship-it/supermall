@@ -6,8 +6,8 @@
 * @version V1.0.0
 !-->
 <template>
-<div id='GoodsList' class='GoodsList'>
-  <goods-list-item v-for="(item,index) in showGoods" :key="index" :item="item"></goods-list-item>
+<div id='goods-list' class='goods-listt'>
+  <goods-list-item v-for="(item,index) in showGoods" :key="index" :item="item" class="goods-item"></goods-list-item>
 </div>
 </template>
 
@@ -50,4 +50,11 @@ export default {
 }
 </script>
 <style scoped lang='less'>
+.goods-list{
+   display: flex;
+   flex-wrap: no-wrap;
+   .goods-item{
+    //  flex:1;
+   }
+}
 </style>

@@ -30,17 +30,17 @@
 </template>
 
 <script>
-import NavBar from '../../components/common/NavBar.vue'
+import NavBar from '@/components/common/NavBar.vue'
 // import Swiper from '../../components/common/swiper/Swiper.vue'
 // import SwiperItem from '../../components/common/swiper/SwiperItem.vue'
 import HomeRecommendView from './HomeRecommendView.vue'
 import FeatureView from './FeatureView.vue'
-import TabControl from '../../components/content/TabControl.vue'
-import GoodsList from '../../components/content/goods/GoodsList.vue'
-import ContentScroll from '../../components/common/ContentScroll.vue'
+import TabControl from '@/components/content/TabControl.vue'
+import GoodsList from '@/components/content/goods/GoodsList.vue'
+import ContentScroll from '@/components/common/ContentScroll.vue'
 
-import {getHome,getHomegoods} from '../../networks/data.js'
-import BackTop from '../../components/common/BackTop.vue'
+import {getHome,getHomegoods} from '@/networks/data.js'
+import BackTop from '@/components/common/BackTop.vue'
 
 
 export default {

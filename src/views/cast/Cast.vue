@@ -7,31 +7,22 @@
 !-->
 <template>
 <div id='cast' class='cast'>
+  <nav-bar class="castNav">
+    <h2 slot="center">购物车({{cartLength}})</h2>
+  </nav-bar>
   <content-scroll class="content">
-    <ul>
-       <li v-for="(item,index) in $store.state.cartShops" :key="index">
-      <div class="check"><input type="checkbox"></div>
-      <div><img :src="item.image"></div>
-      <div>
-        <p>{{item.title}}</p>
-        <div class="item-action">
-          <span class="item-price">{{item.price}}</span>
-          <div>
-            <button @click="des(item.iid)" :disabled="item.count==1?true:false">-</button>
-            <span>{{item.count}}</span>
-            <button @click="add(item.iid)">+</button>
-          </div>
-        </div>
-      </div>
-       </li>
-  </ul>
+    <el-empty description="您的购物车空空如也!!!" v-if="!cartShops.length"></el-empty>
+    <cast-shop-item v-for="(item,index) in cartShops" :key="index" :item="item" v-else></cast-shop-item>
   </content-scroll>
   <check-out></check-out>
 </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import ContentScroll from '../../components/common/ContentScroll.vue'
+import NavBar from '../../components/common/NavBar.vue'
+import CastShopItem from './childComps/CastShopItem.vue'
 import CheckOut from './childComps/CheckOut.vue'
 export default {
   props: { // 父辈向子辈传参
@@ -46,20 +37,22 @@ export default {
     
   },
   computed: { // 计算属性
-     
+  //用法一
+     ...mapGetters(['cartLength','cartShops','account'])
+     //用法二
+    //  ...mapGetters({
+    //    length:'cartLength'
+    //  })
   },
   components: {
     CheckOut,
-    ContentScroll // 组件的引用
+    ContentScroll,
+    NavBar,
+    CastShopItem // 组件的引用
 
   },
   methods: { // 方法
-     add(iid){
-       this.$store.commit('add',iid)
-     },
-     des(iid){
-       this.$store.commit('des',iid)
-     }
+     
   },
   mounted () { // 页面进入时加载内容
 
@@ -72,58 +65,17 @@ export default {
 <style scoped lang='less'>
 .cast{
   height: 100vh;
-  .content{
-    height:calc(100% - 98px);
-    overflow: hidden;
-    // background-color: red;
-  ul{
-    li{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border:1px solid #ccc;
-      div{
-        &.check{
-          width:100px;
-          text-align: center;
-        }
-        img{
-          width:50px;
-          height:100px;
-        }
-        .item-action{
-          display: flex;
-          padding:10px;
-          justify-content: space-between;
-          .item-price{
-            color:red;
-          }
-          div{
-            border:1px solid #ccc;
-            width:60px;
-            display: flex;
-            justify-content: space-between;
-            span{
-
-            }
-            button{
-              height:20px;
-              width: 20px;
-              border:none;
-              outline: none;
-              &:first-child{
-                border-right: 1px solid #ccc;
-              }
-              &:last-child{
-                border-left: 1px solid #ccc;
-              }
-            }
-          }
-        }
-      }
-
+  .castNav{
+    background-color: plum;
+    h2{
+      color:#fff;
     }
   }
+  .content{
+    height:calc(100% - 142px);
+    overflow: hidden;
+    // background-color: red;
+  
   }
 }
 </style>

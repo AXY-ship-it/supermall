@@ -1,46 +1,26 @@
 const mutations= {
-  addCart(state,payload){
-    //第二种方法，参照视频写的
-    //let oldproduct=null
-    // for(let item of state.cartShops){
-    //   if(item.iid===payload.iid){
-    //     oldproduct=item  //指向的存储地址一样
-    //   }
-    // }
-    // if(oldproduct){
-    //   oldproduct.count++
-    // }
-    // else{
-    //   state.cartShops.push(payload)
-    // }
-    let oldShop=state.cartShops.filter((item)=>{
-      return item.iid==payload.iid
-    })
-    if(oldShop.length){
-      oldShop[0].count++
-    }
-    else{
-      state.cartShops.push(payload)
-    }
-    
-    console.log(state.cartShops)
+  //尽量让mutations里面的函数实现单一功能，如果要实现比较复杂的操作，则在actions里面进行操作
+  addCounter(state,oldShop){
+    oldShop[0].count++
   },
-  add(state,iid){
-    let oldShop=state.cartShops.filter((item)=>{
-      return item.iid==iid
-    })
-    if(oldShop.length){
-      oldShop[0].count++
+  addToCart(state,payload){
+    state.cartShops.push(payload)
+  },
+  desCounter(state,oldShop){
+    oldShop[0].count--
+  },
+  isCheck(state,oldShop){
+    oldShop[0].isCheck=!oldShop[0].isCheck
+  },
+  checkAllShop(state){
+    for(let item of state.cartShops){
+      console.log(item)
+      item.isCheck=true
     }
   },
-  des(state,iid){
-    let oldShop=state.cartShops.filter((item)=>{
-      return item.iid==iid
-    })
-    if(oldShop.length){
-      if(oldShop[0].count>1){
-        oldShop[0].count--
-      }
+  notCheckAll(state){
+    for(let item of state.cartShops){
+      item.isCheck=false
     }
   }
 }

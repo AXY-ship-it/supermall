@@ -39,7 +39,7 @@ export default {
     })
     this.scroll.on('scroll',(position)=>{
       this.$emit('contentScroll',position)
-      // this.scroll.refresh
+      this.scroll.refresh
     })
     this.scroll.on('pullingUp',()=>{
       this.$emit('loadMore')
@@ -53,10 +53,10 @@ export default {
     },
     finishPullUp(){
        this.scroll.finishPullUp()
+    },
+    refresh(){
+      this.scroll.refresh()
     }
-    // refresh(){
-    //   this.scroll.refresh()
-    // }
   }
 }
 </script>

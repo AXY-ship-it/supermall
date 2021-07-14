@@ -12,7 +12,9 @@
   <content-scroll class="content" @contentScroll="contentScroll" ref="scroll">
     <detail-base-info :goods="goods" class="detail-base-info" ref="base"></detail-base-info>
     <detail-shop-info :shop="shop" ref="shop"></detail-shop-info>
+    <comment-info :commentInfo="commentInfo"></comment-info>
     <detail-goods-info :detail="detail" ref="goods"></detail-goods-info>
+    <goods-list :showGoods="recommend"></goods-list>
   </content-scroll>
   <back-top @click.native="backClick" v-show="isShowBack"></back-top>
   <detail-bottom-bar @addShops="addShops"/>
@@ -25,11 +27,16 @@ import DetailBaseInfo from './childComps/DetailBaseInfo.vue'
 import DetailShopInfo from './childComps/DetailShopInfo.vue'
 // import DetailSwiper from './childComps/DetailSwiper.vue'
 import DetailGoodsInfo from './childComps/DetailGoodsInfo.vue'
-import ContentScroll from '../../components/common/ContentScroll.vue'
-import BackTop from '../../components/common/BackTop.vue'
+import ContentScroll from '@/components/common/ContentScroll.vue'
+import BackTop from '@/components/common/BackTop.vue'
 import DetailBottomBar from './childComps/DetailBottomBar.vue'
+import CommentInfo from './childComps/CommentInfo.vue'
+// import DetailRecommend from './childComps/DetailRecommend.vue'
 
-import {getDetails,Goods,Shop,DetailInfo} from '../../networks/details'
+import {getDetails,Goods,Shop,DetailInfo,getRecommend} from '../../networks/details'
+import GoodsList from '../../components/content/goods/GoodsList.vue'
+
+
 export default {
   props: { // 父辈向子辈传参
   },
@@ -41,7 +48,10 @@ export default {
     DetailGoodsInfo,
     ContentScroll,
     BackTop,
-    DetailBottomBar
+    DetailBottomBar,
+    CommentInfo,
+    // DetailRecommend,
+    GoodsList
     // DetailSwiper // 组件的引用
   },
   data () {
@@ -56,12 +66,18 @@ export default {
       shopTop:0,
       goodsTop:0,
       isShowBack:false,
+      commentInfo:{},
+      recommend:[]
     }
   },
   created(){
      this.iid=this.$route.query.iid
     //  console.log(this.iid)
      this.getDetails(this.iid)
+     getRecommend(this.iid).then(res=>{
+          this.recommend=res.data.data.list
+          console.log(res)
+        })
   },
   methods: { // 方法
      getDetails(iid){
@@ -72,7 +88,8 @@ export default {
           this.goods=new Goods(data.itemInfo,data.columns,data.shopInfo.services)
           this.shop=new Shop(data.shopInfo)
           this.detail=new DetailInfo(data.detailInfo)
-          console.log(data)
+          this.commentInfo=data.rate.list[0]
+          
         })
      },
      contentScroll(position){
@@ -111,10 +128,13 @@ export default {
       // product.image=this.
       product.iid=this.baseInfo.iid
       product.count=1
+      product.isCheck=false
       product.title=this.goods.title
       product.price=this.goods.oldPrice
       product.image=this.detail.detailImage[0].list[0]
-      this.$store.commit('addCart',product)
+      this.$store.dispatch('addCart',product).then(res=>{
+        this.$toast.show(res,2000)
+      })
       // console.log(product)
     }
   },
@@ -143,9 +163,8 @@ export default {
   }
   .content{
        height: calc(100% - 93px);
-      .detail-base-info{
-         margin-top: 44px;
-  }
+       overflow: hidden;
+        margin-top: 44px;
   }
   
 }

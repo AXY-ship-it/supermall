@@ -2,12 +2,16 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 // import { component } from 'vue/types/umd'
 Vue.use(VueRouter)
+// const originalPush = VueRouter.prototype.push
+// VueRouter.prototype.push = function push (location) {
+//   return originalPush.call(this, location).catch(err => err)
+// }
 const Home= ()=>import('../views/home/Home.vue')
 const IndexPage= ()=>import('../views/home/IndexPage.vue')
 const List= ()=>import('../views/home/List.vue')
 const Cast= ()=>import('../views/cast/Cast.vue')
 const Profile= ()=>import('../views/profile/Profile.vue')
-const Kmusic= ()=>import('../views/kmusic/Kmusic.vue')
+const CateGory= ()=>import('../views/kmusic/CateGory.vue')
 const Detail=()=>import('../views/details/Detail.vue')
 const routes= [
   {
@@ -46,10 +50,10 @@ const routes= [
     }
   },
   {
-    path: '/kmusic',
-    component: Kmusic,
+    path: '/category',
+    component: CateGory,
     meta:{
-      title:'首页'
+      title:'分类'
     }
   },
   {
