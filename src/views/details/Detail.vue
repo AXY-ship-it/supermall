@@ -79,6 +79,9 @@ export default {
           console.log(res)
         })
   },
+  update(){
+      localStorage.setItem('cartShops',JSON.stringify(this.$store.state.cartShops))
+  },
   methods: { // 方法
      getDetails(iid){
         getDetails(iid).then(res=>{
@@ -132,6 +135,8 @@ export default {
       product.title=this.goods.title
       product.price=this.goods.oldPrice
       product.image=this.detail.detailImage[0].list[0]
+      localStorage.setItem('cartShops',JSON.stringify(this.$store.state.cartShops))
+      localStorage.setItem('cartShops',JSON.stringify(this.$store.state.cartShops))
       this.$store.dispatch('addCart',product).then(res=>{
         this.$toast.show(res,2000)
       })

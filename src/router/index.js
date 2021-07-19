@@ -13,6 +13,8 @@ const Cast= ()=>import('../views/cast/Cast.vue')
 const Profile= ()=>import('../views/profile/Profile.vue')
 const CateGory= ()=>import('../views/kmusic/CateGory.vue')
 const Detail=()=>import('../views/details/Detail.vue')
+const Register=()=>import('../views/profile/Register.vue')
+const SetUp=()=>import('../views/profile/SetUp.vue')
 const routes= [
   {
     path: '',
@@ -22,7 +24,8 @@ const routes= [
     path: '/home',
     component: Home,
     meta:{
-      title:'首页'
+      title:'首页',
+      showTab:true
     },
     children:[
       // {
@@ -39,28 +42,32 @@ const routes= [
     path:'/list',
     component:List,
     meta:{
-      title:'分类'
+      title:'分类',
+      showTab:true
     }
   },
   {
     path: '/cast',
     component: Cast,
     meta:{
-      title:'购物车'
+      title:'购物车',
+      showTab:true
     }
   },
   {
     path: '/category',
     component: CateGory,
     meta:{
-      title:'分类'
+      title:'分类',
+      showTab:true
     }
   },
   {
     path: '/profile',
     component: Profile,
     meta:{
-      title:'我的'
+      title:'我的',
+      showTab:true
     }
   },
   {
@@ -68,7 +75,26 @@ const routes= [
     name:'detail',
     component:Detail,
     meta:{
-      title:'详情页'
+      title:'商品详情页',
+      showTab:false
+    }
+  },
+  {
+    path:'/register',
+    name:'register',
+    component:Register,
+    meta:{
+      title:'登录',
+      showTab:false
+    }
+  },
+  {
+    path:'/setup',
+    name:'setup',
+    component:SetUp,
+    meta:{
+      title:'设置',
+      showTab:false
     }
   }
 ]
@@ -78,6 +104,14 @@ const router=new VueRouter({
 })
 router.beforeEach((to,from,next)=>{
   //to:即将跳转的路由或者说跳转后的路由，matched[0]解决路由嵌套的情况
+  // 如果从登录页跳转，则放行
+  if(from.path==='/register') return next()
+  if(to.path==='/register') return next()
+  const tokenStr=window.sessionStorage.getItem("token")
+  // 没有token,强制跳转到登陆页
+  if(!tokenStr){
+    return next('/register')
+  }
   document.title=to.matched[0].meta.title
   next()//一定要加上，才会进行跳转
 })

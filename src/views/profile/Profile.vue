@@ -7,6 +7,9 @@
 !-->
 <template>
 <div id='Profile' class='profile'>
+   <nav-bar class="setup">
+    <div slot="right" class="iconfont icon-shezhi" @click="toSetup"></div>
+   </nav-bar>
   <profile-back class="back">
     <img src="@/assets/img/back.jpg">
   </profile-back>
@@ -31,7 +34,7 @@ export default {
   name: 'Profile',
   data () {
     return {
-
+      acc:0
     }
   },
   created () { // 实例被创建之后执行代码
@@ -43,15 +46,17 @@ export default {
   components: {
     NavBar,
     ProfileBack,
-    ProfileOrder
+    ProfileOrder,
  // 组件的引用
 
   },
   methods: { // 方法
-
+     toSetup(){
+       this.$router.push('/setup')
+     }
   },
   mounted () { // 页面进入时加载内容
-
+     
   },
   watch: { // 监测变化
 
@@ -60,6 +65,11 @@ export default {
 </script>
 <style scoped lang='less'>
 .profile{
+  .setup{
+    position: fixed;
+    top:0;
+    right:0;
+  }
   .back{
     img{
       width:100%;

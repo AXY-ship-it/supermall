@@ -44,6 +44,7 @@ export default {
     },
     checkOut(){
       if(!this.accountLength){
+        this.$bus.$emit('toprofile',3)
         this.$toast.show('你还未选择商品',2000)
         // this.$toast.show(res,2000)
       }

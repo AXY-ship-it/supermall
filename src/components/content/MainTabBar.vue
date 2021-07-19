@@ -6,7 +6,7 @@
 * @version V1.0.0
 !-->
 <template>
-<div id='main-tab-bar' class='main-tab-bar'>
+<div id='main-tab-bar' class='main-tab-bar' v-if="$route.meta.showTab">
     <tab-bar>
       <tab-bar-item path="/home">
         <img src="@/assets/img/网易云音乐.svg" slot="item-icon">
